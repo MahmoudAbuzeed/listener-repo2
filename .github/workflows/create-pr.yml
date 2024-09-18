@@ -31,10 +31,16 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/git/refs \
             -d '{"ref": "refs/heads/${{ steps.generate_branch.outputs.branch_name }}", "sha": "${{ steps.get_sha.outputs.sha }}"}'
 
-      - name: Make a Commit in New Branch
+      - name: Fetch Remote Branches
         run: |
           git fetch origin
-          git checkout -b ${{ steps.generate_branch.outputs.branch_name }}
+
+      - name: Check Out or Create Branch
+        run: |
+          git checkout ${{ steps.generate_branch.outputs.branch_name }} || git checkout -b ${{ steps.generate_branch.outputs.branch_name }}
+
+      - name: Make a Commit in New Branch
+        run: |
           echo "This is an automated commit" >> file.txt
           git add file.txt
           git commit -m "Automated commit to ${{ steps.generate_branch.outputs.branch_name }}"
