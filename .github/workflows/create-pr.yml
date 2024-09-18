@@ -35,6 +35,11 @@ jobs:
         run: |
           git fetch origin
 
+      - name: Set Git User Information
+        run: |
+          git config --global user.email "mahmoudabozeed56@gmail.com"
+          git config --global user.name "MahmoudAbuzeed"
+
       - name: Check Out or Create Branch
         run: |
           git checkout ${{ steps.generate_branch.outputs.branch_name }} || git checkout -b ${{ steps.generate_branch.outputs.branch_name }}
